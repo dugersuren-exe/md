@@ -1,0 +1,26 @@
+name: Автомат меню үүсгэх
+
+on:
+  push:
+    paths:
+      - '**.md'
+      - 'generate_menu.py'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Run menu generator
+        run: python generate_menu.py
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add README.md
+          git commit -m "Автомат меню шинэчлэгдлээ"
+          git push
